@@ -1,0 +1,60 @@
+---
+- hosts: test_server
+  become: true
+  roles:
+     - { role: pablerass.nodejs, node_version: '7.x' }
+     - { name: nsops.mongodb }
+  
+  tasks:
+      - name: Install git if it's not get installed
+        apt:
+            name: git
+            state: present
+     
+      - name: Install the start files and config file
+        git:
+            repo: https://github.com/ealvarezz/server_setup.git
+            dest: /home/ubuntu/server_setup
+
+      - name: Move vimrc file =D
+        command: mv /home/ubuntu/server_setup/.vimrc /home/ubuntu/.vimrc
+
+      - name: Move .vim dir
+        command: mv /home/ubuntu/server_setup/.vim /home/ubuntu/.vim
+
+      - name: Install NginX
+        apt:
+            name: nginx
+            state: present
+        
+      - name: Detele old config
+        file: path=/etc/nginx/sites-available/default state=absent
+
+      - name: Move new config file to the path
+        command: mv /home/ubuntu/server_setup/nginx_ubuntu16/default /etc/nginx/sites-available/default
+
+      - name: First command
+        shell: nginx -t
+
+      - name: Restart NginX
+        shell: systemctl restart nginx
+
+      - name: Firewall settings
+        shell: ufw allow 'Nginx Full'
+
+      - name: Checking out TwitterApp from git repository
+        git:
+            repo: https://github.com/skamal10/TwitterApp.git
+            dest: /var/www/html/cse356
+
+      - name: Restart NginX
+        shell: systemctl restart nginx
+
+      - name: Intalling forvever to make node js app deamonized
+        npm:
+            name: forever
+            global: yes
+            state: present
+
+      - name: start app
+        shell: forever start /var/www/html/cse356/bin/www
