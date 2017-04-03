@@ -1,0 +1,25 @@
+
+- hosts: front_ends
+  become: true
+  tasks:
+      - name: Pull front git directory
+        git:
+            repo: https://github.com/skamal10/TwitterApp.git
+            dest: /var/www/html/cse356
+
+      - name: Restart NginX
+        shell: systemctl restart nginx
+
+
+      - name: Check if forever process is running
+        shell: ps aux | grep forever | grep -v grep
+        ignore_errors: yes
+        changed_when: false
+        register: service_forever_status
+
+
+      - name: Restart forever
+        become_user: root
+        command: forever start /var/www/html/cse356/bin/www
+        when: service_forever_status.rc != 0
+# To run ansible-playbook -s auto_pull.yml -u ubuntu 
