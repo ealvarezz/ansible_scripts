@@ -1,5 +1,5 @@
 ---
-- hosts: test_server
+- hosts: front_ends
   become: true
   roles:
      - { role: pablerass.nodejs, node_version: '7.x' }
@@ -58,3 +58,5 @@
 
       - name: start app
         shell: forever start /var/www/html/cse356/bin/www
+
+ # To run ansible-playbook -s cloud_twitter_nginx.yml -u ubuntu
