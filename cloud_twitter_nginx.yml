@@ -47,16 +47,16 @@
             repo: https://github.com/skamal10/TwitterApp.git
             dest: /var/www/html/cse356
 
-      - name: Restart NginX
-        shell: systemctl restart nginx
-
-      - name: Intalling forvever to make node js app deamonized
+      - name: Intalling pm2 to make node js app deamonized
         npm:
-            name: forever
+            name: pm2
             global: yes
             state: present
 
       - name: start app
-        shell: forever start /var/www/html/cse356/bin/www
+        shell: forever start /var/www/html/cse356/bin/www --watch
+      
+      - name: Restart NginX
+        shell: systemctl restart nginx
 
  # To run ansible-playbook -s cloud_twitter_nginx.yml -u ubuntu
