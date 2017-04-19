@@ -60,7 +60,7 @@
             state: present
 
       - name: start app
-        shell: forever start /var/www/html/cse356/bin/www --watch
+        shell: pm2 start /var/www/html/cse356/bin/www --watch
       
       - name: Restart NginX
         shell: systemctl restart nginx

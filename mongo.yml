@@ -14,4 +14,10 @@
             dest: /home/ubuntu/server_setup
 
       - name: Move config dir
-        command: cp /home/ubuntu/server_setup/mongo/mongod.conf /etc/mongod.conf
+        command: cp /home/ubuntu/server_setup/mongo/mongod_sh.conf /etc/mongod.conf
+        notify:
+           - restart mongodb
+
+  handlers:
+      - name: restart mongodb
+        service: name=mongodb state=restarted
