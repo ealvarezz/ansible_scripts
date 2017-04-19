@@ -1,6 +1,17 @@
 
 ---
-- hosts: db_servers
+- hosts: dbs
   become: true
   roles:
      - { name: nsops.mongodb }
+  tasks:
+      - name: Detele old config
+        file: path=/etc/mongod.conf state=absent
+
+      - name: Pull front git directory
+        git:
+            repo: https://github.com/ealvarezz/server_setup.git 
+            dest: /home/ubuntu/server_setup
+
+      - name: Move config dir
+        command: cp /home/ubuntu/server_setup/mongo/mongod.conf /etc/mongod.conf

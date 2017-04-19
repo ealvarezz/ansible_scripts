@@ -16,6 +16,12 @@
             repo: https://github.com/ealvarezz/server_setup.git
             dest: /home/ubuntu/server_setup
 
+      - name: Detele old config
+        file: path=/etc/mongod.conf state=absent
+
+      - name: Move config dir
+        command: cp /home/ubuntu/server_setup/mongo/mongod.conf /etc/mongod.conf
+
       - name: Move vimrc file =D
         command: mv /home/ubuntu/server_setup/.vimrc /home/ubuntu/.vimrc
 

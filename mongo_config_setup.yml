@@ -1,0 +1,8 @@
+- hosts: config_servers
+  become: true
+  tasks:
+      - name: Create data file
+	command: mkdir /mongo-metadata
+
+      - name: start congif servers
+        command: mongod --configsvr --dbpath /mongo-metadata --port 27019
