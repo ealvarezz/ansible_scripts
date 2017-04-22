@@ -1,0 +1,8 @@
+
+---
+- hosts: front_ends
+  become: true
+  tasks:
+      - name: start queries
+        command: mongos --config /etc/mongod.conf &
+

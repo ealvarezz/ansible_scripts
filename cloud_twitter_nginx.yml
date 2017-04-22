@@ -65,4 +65,9 @@
       - name: Restart NginX
         shell: systemctl restart nginx
 
+
+      - name: stop mongodb
+        service: name=mongodb state=stopped
+
+
  # To run ansible-playbook -s cloud_twitter_nginx.yml -u ubuntu

@@ -9,6 +9,9 @@
 
       - name: Restart NginX
         shell: systemctl restart nginx
+      
+      - name: delete logs 
+        command: pm2 flush
 
 
 # To run ansible-playbook -s auto_pull.yml -u ubuntu 
