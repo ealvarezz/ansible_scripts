@@ -2,10 +2,12 @@
 ---
 - hosts: front_ends
   become: true
+  roles:
+     - { name: nsops.mongodb }
   tasks:
       - name: Detele old config
         file: path=/etc/mongod.conf state=absent
-
+  
       - name: Pull front git directory
         git:
             repo: https://github.com/ealvarezz/server_setup.git 
@@ -16,10 +18,4 @@
 
       - name: Move mongos dir
         command: cp /home/ubuntu/server_setup/mongo/mongos.conf /etc/mongod.conf
-        notify:
-           - restart mongodb
-
-  handlers:
-      - name: restart mongodb
-        service: name=mongos state=restarted
 

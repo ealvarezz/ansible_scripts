@@ -1,6 +1,6 @@
 
 ---
-- hosts: sa
+- hosts: shards
   become: true
   roles:
      - { name: nsops.mongodb }

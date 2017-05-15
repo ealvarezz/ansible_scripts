@@ -3,7 +3,7 @@
   become: true
   roles:
      - { role: pablerass.nodejs, node_version: '7.x' }
-     - { name: nsops.mongodb }
+#     - { name: nsops.mongodb }
   
   tasks:
       - name: Install git if it's not get installed
@@ -16,11 +16,11 @@
             repo: https://github.com/ealvarezz/server_setup.git
             dest: /home/ubuntu/server_setup
 
-      - name: Detele old config
-        file: path=/etc/mongod.conf state=absent
+    #  - name: Detele old config
+    #    file: path=/etc/mongod.conf state=absent
 
-      - name: Move config dir
-        command: cp /home/ubuntu/server_setup/mongo/mongod.conf /etc/mongod.conf
+ #     - name: Move config dir
+  #      command: cp /home/ubuntu/server_setup/mongo/mongod.conf /etc/mongod.conf
 
       - name: Move vimrc file =D
         command: mv /home/ubuntu/server_setup/.vimrc /home/ubuntu/.vimrc
@@ -28,25 +28,25 @@
       - name: Move .vim dir
         command: mv /home/ubuntu/server_setup/.vim /home/ubuntu/.vim
 
-      - name: Install NginX
-        apt:
-            name: nginx
-            state: present
-        
-      - name: Detele old config
-        file: path=/etc/nginx/sites-available/default state=absent
+     # - name: Install NginX
+     #   apt:
+     #       name: nginx
+     #       state: present
+     #   
+     # - name: Detele old config
+     #   file: path=/etc/nginx/sites-available/default state=absent
 
-      - name: Move new config file to the path
-        command: mv /home/ubuntu/server_setup/nginx_ubuntu16/default /etc/nginx/sites-available/default
+     # - name: Move new config file to the path
+     #   command: mv /home/ubuntu/server_setup/nginx_ubuntu16/default /etc/nginx/sites-available/default
 
-      - name: First command
-        shell: nginx -t
+     # - name: First command
+     #   shell: nginx -t
 
-      - name: Restart NginX
-        shell: systemctl restart nginx
+     # - name: Restart NginX
+     #   shell: systemctl restart nginx
 
-      - name: Firewall settings
-        shell: ufw allow 'Nginx Full'
+     # - name: Firewall settings
+     #   shell: ufw allow 'Nginx Full'
 
       - name: Checking out TwitterApp from git repository
         git:
@@ -62,12 +62,12 @@
       - name: start app
         shell: pm2 start /var/www/html/cse356/bin/www --watch
       
-      - name: Restart NginX
-        shell: systemctl restart nginx
+      #- name: Restart NginX
+      #  shell: systemctl restart nginx
 
 
-      - name: stop mongodb
-        service: name=mongodb state=stopped
+   #   - name: stop mongodb
+   #     service: name=mongodb state=stopped
 
 
  # To run ansible-playbook -s cloud_twitter_nginx.yml -u ubuntu

@@ -1,8 +1,13 @@
-- hosts: config_servers
+- hosts: front_ends
   become: true
   tasks:
-      - name: Create data file
-	command: mkdir /mongo-metadata
-
-      - name: start congif servers
-        command: mongod --configsvr --dbpath /mongo-metadata --port 27019
+      - name: Detele old config
+        file: path=/etc/mongod.conf state=absent
+  
+      - name: Pull front git directory
+        git:
+            repo: https://github.com/ealvarezz/server_setup.git 
+            dest: /home/ubuntu/server_setup
+      
+      - name: Move config dir
+        command: cp /home/ubuntu/server_setup/mongo/mongos2.conf /etc/mongod.conf
