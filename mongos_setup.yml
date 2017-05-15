@@ -3,6 +3,23 @@
 - hosts: front_ends
   become: true
   tasks:
-      - name: start queries
-        command: mongos --config /etc/mongod.conf &
+      - name: Detele old config
+        file: path=/etc/mongod.conf state=absent
+
+      - name: Pull front git directory
+        git:
+            repo: https://github.com/ealvarezz/server_setup.git 
+            dest: /home/ubuntu/server_setup
+      
+      - name: Move config dir
+        command: cp /home/ubuntu/server_setup/mongo/mongod_cnf.conf /etc/mongocnf.conf
+
+      - name: Move mongos dir
+        command: cp /home/ubuntu/server_setup/mongo/mongos.conf /etc/mongod.conf
+        notify:
+           - restart mongodb
+
+  handlers:
+      - name: restart mongodb
+        service: name=mongos state=restarted
 
