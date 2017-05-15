@@ -1,6 +1,6 @@
 
 ---
-- hosts: dbs
+- hosts: sa
   become: true
   roles:
      - { name: nsops.mongodb }
